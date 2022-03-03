@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android Studio/OnlineChat/OnlineChat/app/src/main/res/drawable/background_icon.xml" value="0.153" />
+        <entry key="..\:/Android Studio/OnlineChat/OnlineChat/app/src/main/res/drawable/ic_logout.xml" value="0.228" />
+        <entry key="..\:/Android Studio/OnlineChat/OnlineChat/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Android Studio/OnlineChat/OnlineChat/app/src/main/res/layout/activity_sign_in.xml" value="0.21920289855072464" />
+        <entry key="..\:/Android Studio/OnlineChat/OnlineChat/app/src/main/res/layout/activity_sign_up.xml" value="0.3625" />
         <entry key="..\:/Users/User/AndroidStudioProjects/OnlineChat/app/src/main/res/drawable/background_image.xml" value="0.1" />
         <entry key="..\:/Users/User/AndroidStudioProjects/OnlineChat/app/src/main/res/drawable/background_input.xml" value="0.2405" />
         <entry key="..\:/Users/User/AndroidStudioProjects/OnlineChat/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
