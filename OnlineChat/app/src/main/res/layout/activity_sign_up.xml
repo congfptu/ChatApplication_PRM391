@@ -9,43 +9,50 @@
     android:padding="@dimen/_24sdp"
     android:scrollbars="none"
     tools:context=".activities.SignUpActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:text="@string/create_new_account"
-        android:textColor="@color/primary_text"
-        android:textSize="@dimen/_18ssp"
-        android:textStyle="bold">
 
-    </TextView>
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20sdp"
-        >
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/imageProfile"
-            android:layout_width="@dimen/_80sdp"
-            android:layout_height="@dimen/_80sdp"
-            android:background="@drawable/background_image"
-            android:scaleType="centerCrop"
-            app:riv_oval="true"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/add_image"
-        android:textColor="@color/secondary_text"
-        android:textSize="@dimen/_10ssp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:text="@string/create_new_account"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/_18ssp"
+            android:textStyle="bold">
+
+        </TextView>
+
+        <FrameLayout
+            android:id="@+id/layoutImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/imageProfile"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
+                android:background="@drawable/background_image"
+                android:scaleType="centerCrop"
+                app:riv_oval="true" />
+
+            <TextView
+                android:id="@+id/textAddImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/add_image"
+                android:textColor="@color/secondary_text"
+                android:textSize="@dimen/_10ssp" />
 
 
-    </FrameLayout>
+        </FrameLayout>
+
         <EditText
             android:id="@+id/inputName"
             android:layout_width="match_parent"
@@ -59,8 +66,8 @@
             android:paddingStart="@dimen/_16sdp"
             android:paddingEnd="@dimen/_16sdp"
             android:textColor="@color/primary_text"
-            android:textSize="@dimen/_13ssp"
-            />
+            android:textSize="@dimen/_13ssp" />
+
         <EditText
             android:id="@+id/inputEmail"
             android:layout_width="match_parent"
@@ -74,11 +81,10 @@
             android:paddingStart="@dimen/_16sdp"
             android:paddingEnd="@dimen/_16sdp"
             android:textColor="@color/primary_text"
-            android:textSize="@dimen/_13ssp"
-            >
-        </EditText>
+            android:textSize="@dimen/_13ssp"></EditText>
+
         <EditText
-            android:id="@+id/Password"
+            android:id="@+id/inputPassword"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_45sdp"
             android:layout_marginTop="@dimen/_16sdp"
@@ -90,10 +96,10 @@
             android:paddingStart="@dimen/_16sdp"
             android:paddingEnd="@dimen/_16sdp"
             android:textColor="@color/primary_text"
-            android:textSize="@dimen/_13ssp"
-            >
+            android:textSize="@dimen/_13ssp">
 
         </EditText>
+
         <EditText
             android:id="@+id/inputComfirmPassword"
             android:layout_width="match_parent"
@@ -107,23 +113,36 @@
             android:paddingStart="@dimen/_16sdp"
             android:paddingEnd="@dimen/_16sdp"
             android:textColor="@color/primary_text"
-            android:textSize="@dimen/_13ssp"
-            >
+            android:textSize="@dimen/_13ssp">
 
         </EditText>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:animateLayoutChanges="true">
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonSignUp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_50sdp"
-            android:layout_marginTop="@dimen/_16sdp"
             android:text="@string/sign_up"
             android:textColor="@color/white"
             android:textSize="@dimen/_13ssp"
             android:textStyle="bold"
-            app:cornerRadius="@dimen/_8sdp"
-            >
+            app:cornerRadius="@dimen/_8sdp"/>
 
-        </com.google.android.material.button.MaterialButton>
+      <ProgressBar
+          android:layout_width="@dimen/_25sdp"
+          android:layout_height="@dimen/_25sdp"
+          android:id="@+id/progressBar"
+          android:visibility="invisible"
+          android:layout_gravity="center"
+          />
+        </FrameLayout>
+        />
+
         <TextView
             android:id="@+id/textSignIn"
             android:layout_width="wrap_content"
@@ -132,7 +151,6 @@
             android:text="@string/sign_in"
             android:textColor="@color/primary"
             android:textSize="@dimen/_13ssp"
-            android:textStyle="bold"
-            ></TextView>
+            android:textStyle="bold"></TextView>
     </LinearLayout>
 </ScrollView>
