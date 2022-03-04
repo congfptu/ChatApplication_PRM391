@@ -14,6 +14,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.is1427.onlinechat.activities.SignInActivity;
+import com.is1427.onlinechat.activities.UsersActivity;
 import com.is1427.onlinechat.databinding.ActivityMainBinding;
 import com.is1427.onlinechat.utilities.Constants;
 import com.is1427.onlinechat.utilities.PreferenceManager;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void setListeners(){
         binding.imageSignOut.setOnClickListener(view -> signOut());
+        binding.fabNewChat.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), UsersActivity.class)));
     }
     private  void loadUserDetails(){
         binding.textName.setText(preferenceManager.getString(Constants.KEY_NAME));
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 database.collection(Constants.KEY_COLLECTION_USERS)
                 .document(preferenceManager.getString(Constants.KEY_USER_ID));
         documentReference.update(Constants.KEY_FCM_TOKEN,token)
-                .addOnSuccessListener(unused -> showToast("Token updated successfully"))
+               // .addOnSuccessListener(unused -> showToast("Token updated successfully"))
                 .addOnFailureListener(e -> showToast(" Update Token Fail"));
     }
     private void signOut(){
