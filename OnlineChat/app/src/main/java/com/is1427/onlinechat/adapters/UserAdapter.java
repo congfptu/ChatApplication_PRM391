@@ -11,20 +11,24 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.is1427.onlinechat.databinding.ItemContainerUserBinding;
+import com.is1427.onlinechat.listeners.UserListener;
 import com.is1427.onlinechat.models.User;
 
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
     private final List<User> users;
-    public UserAdapter(List<User> users){
-        this.users=users;
+    private final UserListener userListener;
+
+    public UserAdapter(List<User> users, UserListener userListener) {
+        this.userListener = userListener;
+        this.users = users;
     }
 
     @NonNull
     @Override
     public UserViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemContainerUserBinding itemContainerUserBinding=ItemContainerUserBinding.inflate(
+        ItemContainerUserBinding itemContainerUserBinding = ItemContainerUserBinding.inflate(
                 LayoutInflater.from(parent.getContext()),
                 parent,
                 false
@@ -34,7 +38,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
-  holder.setUserData(users.get(position));
+        holder.setUserData(users.get(position));
     }
 
     @Override
@@ -42,21 +46,25 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         return users.size();
     }
 
-    class UserViewHolder extends RecyclerView.ViewHolder{
+    class UserViewHolder extends RecyclerView.ViewHolder {
         ItemContainerUserBinding binding;
-        UserViewHolder(ItemContainerUserBinding itemContainerUserBinding){
+
+        UserViewHolder(ItemContainerUserBinding itemContainerUserBinding) {
             super(itemContainerUserBinding.getRoot());
-            binding=itemContainerUserBinding;
+            binding = itemContainerUserBinding;
         }
-        void setUserData(User user){
+
+        void setUserData(User user) {
             binding.textName.setText(user.name);
             binding.textEmail.setText(user.email);
             binding.imageProfile.setImageBitmap(getUserImage(user.image));
+            binding.getRoot().setOnClickListener(view -> userListener.onUserClicked(user));
         }
     }
-    private Bitmap getUserImage(String encodedImage){
-        byte[] bytes= Base64.decode(encodedImage,Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+
+    private Bitmap getUserImage(String encodedImage) {
+        byte[] bytes = Base64.decode(encodedImage, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 
     }
 }

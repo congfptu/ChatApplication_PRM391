@@ -1,6 +1,8 @@
 package com.is1427.onlinechat.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -9,6 +11,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import com.is1427.onlinechat.adapters.UserAdapter;
 import com.is1427.onlinechat.databinding.ActivityUsersBinding;
+import com.is1427.onlinechat.listeners.UserListener;
 import com.is1427.onlinechat.models.User;
 import com.is1427.onlinechat.utilities.Constants;
 import com.is1427.onlinechat.utilities.PreferenceManager;
@@ -16,7 +19,7 @@ import com.is1427.onlinechat.utilities.PreferenceManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsersActivity extends AppCompatActivity {
+public class UsersActivity extends AppCompatActivity implements UserListener {
     private ActivityUsersBinding binding;
     private PreferenceManager preferenceManager;
     @Override
@@ -53,7 +56,7 @@ public class UsersActivity extends AppCompatActivity {
                             users.add(user);
                         }
                         if(users.size()>0){
-                            UserAdapter userAdapter=new UserAdapter(users);
+                            UserAdapter userAdapter=new UserAdapter(users,this);
                                 binding.usersRecyclerView.setAdapter(userAdapter);
                                 binding.usersRecyclerView.setVisibility(View.VISIBLE);
                         }
@@ -78,5 +81,13 @@ public class UsersActivity extends AppCompatActivity {
             binding.progressBar.setVisibility(View.INVISIBLE);
 
         }
+    }
+
+    @Override
+    public void onUserClicked(User user) {
+        Intent intent=new Intent(getApplicationContext(),ChatActivity.class);
+        intent.putExtra(com.is1427.onlinechat.utilities.Constants.KEY_USER,user);
+        startActivity(intent);
+        finish();
     }
 }
