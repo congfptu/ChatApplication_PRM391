@@ -10,13 +10,15 @@
         <entry key="..\:/Android Studio/OnlineChat/OnlineChat/app/src/main/res/drawable/background_received_message.xml" value="0.2085" />
         <entry key="..\:/Android Studio/OnlineChat/OnlineChat/app/src/main/res/drawable/background_sent_message.xml" value="0.2085" />
         <entry key="..\:/Android Studio/OnlineChat/OnlineChat/app/src/main/res/drawable/ic_add.xml" value="0.2085" />
+        <entry key="..\:/Android Studio/OnlineChat/OnlineChat/app/src/main/res/drawable/ic_image.xml" value="0.161" />
         <entry key="..\:/Android Studio/OnlineChat/OnlineChat/app/src/main/res/drawable/ic_logout.xml" value="0.228" />
-        <entry key="..\:/Android Studio/OnlineChat/OnlineChat/app/src/main/res/layout/activity_chat.xml" value="0.21920289855072464" />
+        <entry key="..\:/Android Studio/OnlineChat/OnlineChat/app/src/main/res/layout/activity_chat.xml" value="0.33" />
         <entry key="..\:/Android Studio/OnlineChat/OnlineChat/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Android Studio/OnlineChat/OnlineChat/app/src/main/res/layout/activity_sign_in.xml" value="0.21920289855072464" />
         <entry key="..\:/Android Studio/OnlineChat/OnlineChat/app/src/main/res/layout/activity_sign_up.xml" value="0.3625" />
         <entry key="..\:/Android Studio/OnlineChat/OnlineChat/app/src/main/res/layout/activity_users.xml" value="0.3625" />
         <entry key="..\:/Android Studio/OnlineChat/OnlineChat/app/src/main/res/layout/item_container_receiverd_message.xml" value="0.3625" />
+        <entry key="..\:/Android Studio/OnlineChat/OnlineChat/app/src/main/res/layout/item_container_recent_conversion.xml" value="0.21920289855072464" />
         <entry key="..\:/Android Studio/OnlineChat/OnlineChat/app/src/main/res/layout/item_container_sent_message.xml" value="0.3625" />
         <entry key="..\:/Android Studio/OnlineChat/OnlineChat/app/src/main/res/layout/item_container_user.xml" value="0.33" />
         <entry key="..\:/Online_Chat_0503/OnlineChat/app/src/main/res/layout/activity_chat.xml" value="0.20416666666666666" />
