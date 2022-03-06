@@ -1,7 +1,5 @@
 package com.is1427.onlinechat;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +15,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.is1427.onlinechat.activities.BaseActivity;
 import com.is1427.onlinechat.activities.ChatActivity;
 import com.is1427.onlinechat.activities.SignInActivity;
 import com.is1427.onlinechat.activities.UsersActivity;
@@ -29,12 +28,11 @@ import com.is1427.onlinechat.utilities.Constants;
 import com.is1427.onlinechat.utilities.PreferenceManager;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements ConversionListener {
+public class MainActivity extends BaseActivity implements ConversionListener {
     private ActivityMainBinding binding;
     private PreferenceManager preferenceManager;
     private List<ChatMessage> conversations;
@@ -44,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements ConversionListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding=ActivityMainBinding.inflate(getLayoutInflater());
+        binding= ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         preferenceManager=new PreferenceManager(getApplicationContext());
         init();
