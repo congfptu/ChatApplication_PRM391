@@ -59,7 +59,7 @@ public class MessagingService extends FirebaseMessagingService {
             CharSequence channelName = "Chat Message";
             String channelDescription = "This notification channel is used for chat message notifications";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(channelId,channelName,importance);
+            NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
             channel.setDescription(channelDescription);
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
