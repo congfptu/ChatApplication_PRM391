@@ -128,7 +128,7 @@ public class ChatActivity extends BaseActivity {
     }
 
     private void sendNotification(String messageBody){
-        ApiClient.getClient().create(ApiService.class).sendMessage(Constants.getRemoteMsgHeaders(),messageBody).enqueue(new Callback<String>() {
+        ApiClient.getClient().create(ApiService.class).sendMessage(Constants.getRemoteMsgHeaders(),messageBody).enqueue((new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if(response.isSuccessful()){
@@ -157,7 +157,7 @@ public class ChatActivity extends BaseActivity {
             public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                     showToast(t.getMessage());
             }
-        });
+        }));
 
     }
     private void listenAvailabilityOfReceiver(){
@@ -174,7 +174,6 @@ public class ChatActivity extends BaseActivity {
                         ).intValue();
                         isReceiverAvailable = availability == 1;
                     }
-
                     receiverUser.token = value.getString(Constants.KEY_FCM_TOKEN);
                     if(receiverUser.image == null){
                         receiverUser.image = value.getString(Constants.KEY_IMAGE);

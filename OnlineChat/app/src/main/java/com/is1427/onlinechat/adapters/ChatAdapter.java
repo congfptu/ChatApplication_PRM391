@@ -24,7 +24,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void setReceiverProfileImage(Bitmap bitmap){
         receiverProfileImage = bitmap;
     }
-
     public ChatAdapter(List<ChatMessage> chatMessage, Bitmap receiverProfileImage, String senderId) {
         this.chatMessage = chatMessage;
         this.receiverProfileImage = receiverProfileImage;
@@ -97,8 +96,8 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             binding = itemContainerReceiverdMessageBinding;
         }
 
-        void setData(ChatMessage chatMessage, Bitmap receiverProfileImage) {
-                binding.textMessage.setText(chatMessage.message);
+        void setData(@NonNull ChatMessage chatMessage, Bitmap receiverProfileImage) {
+                binding.textMessage.setText(chatMessage.message.trim());
                 binding.textDateTime.setText(chatMessage.dateTime);
                 if(receiverProfileImage != null){
                     binding.imageProfile.setImageBitmap(receiverProfileImage);

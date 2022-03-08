@@ -28,7 +28,6 @@ public class Constants {
     public static final String KEY_AVAILABILITY = "availability";
     public static final String REMOTE_MSG_AUTHORIZATION = "Authorization";
     public static final String REMOTE_MSG_CONTENT_TYPE= "Content-Type";
-
     public static final String REMOTE_MSG_DATA= "data";
     public static final String REMOTE_MSG_REGISTRATION_IDS= "registration_ids";
 
@@ -37,8 +36,8 @@ public class Constants {
     public static HashMap<String, String> getRemoteMsgHeaders(){
         if(remoteMsgHeaders == null){
             remoteMsgHeaders = new HashMap<>();
-            remoteMsgHeaders.put(REMOTE_MSG_AUTHORIZATION,"key=AAAA3FXB2Bs:APA91bHDaR8lzEkuzEVJgA2RUV2aTh5bq8nzGhLKbYboEItFJ4UdAHMYUV-cXoAkfWBs9NnpobhVcaYpi4NC0mdtPUXZNMFyaYCEYzrkpVZXJujLONDKestykfalyUWuWQLMQ0yZEAml");
-            remoteMsgHeaders.put(REMOTE_MSG_CONTENT_TYPE,"application/json");
+            remoteMsgHeaders.put(REMOTE_MSG_AUTHORIZATION,"AAAA3FXB2Bs:APA91bHDaR8lzEkuzEVJgA2RUV2aTh5bq8nzGhLKbYboEItFJ4UdAHMYUV-cXoAkfWBs9NnpobhVcaYpi4NC0mdtPUXZNMFyaYCEYzrkpVZXJujLONDKestykfalyUWuWQLMQ0yZEAml");
+            remoteMsgHeaders.put(REMOTE_MSG_CONTENT_TYPE,"app;ication/json");
         }
         return remoteMsgHeaders;
     }

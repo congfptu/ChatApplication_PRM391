@@ -84,12 +84,11 @@
         android:orientation="vertical"
         android:overScrollMode="never"
         android:padding="@dimen/_20sdp"
+        app:stackFromEnd="true"
         android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="@id/viewBackground"
-        app:layout_constraintTop_toBottomOf="@id/viewSupporter"
-        app:stackFromEnd="true"/>
-
+        app:layout_constraintTop_toBottomOf="@id/viewSupporter"/>
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="@dimen/_25sdp"
@@ -151,6 +150,6 @@
         android:textColor="@color/white"
         android:textSize="@dimen/_10ssp"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/viewSupporter"/>
+        app:layout_constraintTop_toBottomOf="@+id/viewSupporter"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
