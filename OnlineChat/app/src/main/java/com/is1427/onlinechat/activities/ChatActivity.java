@@ -61,7 +61,6 @@ public class ChatActivity extends BaseActivity {
          setInValidMessage();
         setContentView(R.layout.activity_chat);
         binding = ActivityChatBinding.inflate(getLayoutInflater());
-
         setContentView(binding.getRoot());
         setListeners();
         loadReceiverDetails();
@@ -103,9 +102,13 @@ public class ChatActivity extends BaseActivity {
         return rs;
  }
     private void sendMessage(){
+
         String words=binding.inputMessage.getText().toString().trim();
+        if(words.trim().equals("")){}
+        else
+        {
        String[] arrayWords= words.split("\\s");
-        Log.e("fd",arrayWords[0]+arrayWords[1]+arrayWords[2]+inValidMessage.size());
+
        for (int i=0;i<arrayWords.length;i++){
            String word=arrayWords[i];
            if (inValidMessage.indexOf(word)!=-1)
@@ -161,6 +164,7 @@ public class ChatActivity extends BaseActivity {
                 showToast(exception.getMessage());
 
             }
+        }
         }
         binding.inputMessage.setText(null);
     }
