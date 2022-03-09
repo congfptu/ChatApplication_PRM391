@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -21,11 +22,14 @@ import com.is1427.onlinechat.utilities.Constants;
 import java.util.Random;
 
 
+
+
 public class MessagingService extends FirebaseMessagingService {
+    public static final String TAG= MessagingService.class.getName();
     @Override
     public void onNewToken(@NonNull String token) {
         super.onNewToken(token);
-        Log.d("FCM", "Token: " + token);
+        Log.e(TAG, "token");
     }
 
     @Override
@@ -71,4 +75,7 @@ public class MessagingService extends FirebaseMessagingService {
 
 //        Log.d("FCM", "Message: " + remoteMessage.getNotification().getBody());
     }
+
+
+
 }

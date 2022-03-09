@@ -1,4 +1,4 @@
-package com.is1427.onlinechat;
+package com.is1427.onlinechat.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;

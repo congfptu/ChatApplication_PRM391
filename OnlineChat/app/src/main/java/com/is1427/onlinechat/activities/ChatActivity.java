@@ -130,10 +130,14 @@ public class ChatActivity extends BaseActivity {
     }
 
     private void sendNotification(String messageBody){
-        ApiClient.getClient().create(ApiService.class).sendMessage(Constants.getRemoteMsgHeaders(),messageBody).enqueue(new Callback<String>() {
+        ApiClient.getClient().create(ApiService.class).sendMessage(
+                Constants.getRemoteMsgHeaders(),
+                messageBody
+        ).enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call,@NonNull Response<String> response) {
                 if(response.isSuccessful()){
+
                     try{
                         if(response.body() != null){
                             JSONObject responseJson = new JSONObject(response.body());
@@ -149,7 +153,8 @@ public class ChatActivity extends BaseActivity {
                     }
                     showToast("Notification sent successfully");
 
-                }else{
+                }
+                else{
                     showToast("Error:" + response.code());
                 }
             }

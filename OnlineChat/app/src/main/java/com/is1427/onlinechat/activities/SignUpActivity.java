@@ -16,9 +16,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.is1427.onlinechat.MainActivity;
-import com.is1427.onlinechat.R;
-import com.is1427.onlinechat.databinding.ActivitySignInBinding;
 import com.is1427.onlinechat.databinding.ActivitySignUpBinding;
 import com.is1427.onlinechat.utilities.Constants;
 import com.is1427.onlinechat.utilities.PreferenceManager;

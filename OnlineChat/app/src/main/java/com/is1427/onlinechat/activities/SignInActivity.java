@@ -2,7 +2,6 @@ package com.is1427.onlinechat.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -11,8 +10,6 @@ import android.widget.Toast;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.is1427.onlinechat.MainActivity;
-import com.is1427.onlinechat.R;
 import com.is1427.onlinechat.databinding.ActivitySignInBinding;
 import com.is1427.onlinechat.utilities.Constants;
 import com.is1427.onlinechat.utilities.PreferenceManager;
