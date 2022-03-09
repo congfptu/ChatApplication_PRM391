@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -53,12 +54,14 @@ public class ChatActivity extends BaseActivity {
     private FirebaseFirestore database;
     private String conversionId = null;
     private Boolean isReceiverAvailable = false;
-
+    ArrayList<String> inValidMessage =new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+         setInValidMessage();
         setContentView(R.layout.activity_chat);
         binding = ActivityChatBinding.inflate(getLayoutInflater());
+
         setContentView(binding.getRoot());
         setListeners();
         loadReceiverDetails();
@@ -66,6 +69,22 @@ public class ChatActivity extends BaseActivity {
         listenMessages();
     }
 
+ public void setInValidMessage(){
+     inValidMessage.add("lon");
+     inValidMessage.add("cac");
+     inValidMessage.add("dcm");
+     inValidMessage.add("vcl");
+     inValidMessage.add("vl");
+     inValidMessage.add("dm");
+     inValidMessage.add("cc");
+     inValidMessage.add("me");
+     inValidMessage.add("djtme");
+     inValidMessage.add("dit");
+     inValidMessage.add("cut");
+     inValidMessage.add("vc");
+     inValidMessage.add("djt");
+
+ }
     private void init(){
         preferenceManager = new PreferenceManager(getApplicationContext());
         chatMessages = new ArrayList<>();
@@ -77,16 +96,37 @@ public class ChatActivity extends BaseActivity {
         binding.chatRecyclerView.setAdapter(chatAdapter);
         database = FirebaseFirestore.getInstance();
     }
-
+ public String convertInvalidWord(String word){
+        String rs="";
+        for (int i=0;i<word.length();i++)
+            rs+="*";
+        return rs;
+ }
     private void sendMessage(){
+        String words=binding.inputMessage.getText().toString().trim();
+       String[] arrayWords= words.split("\\s");
+        Log.e("fd",arrayWords[0]+arrayWords[1]+arrayWords[2]+inValidMessage.size());
+       for (int i=0;i<arrayWords.length;i++){
+           String word=arrayWords[i];
+           if (inValidMessage.indexOf(word)!=-1)
+           words=words.replaceFirst(word,convertInvalidWord(word));
+       }
+       for (int i=0;i<inValidMessage.size();i++){
+           String word=inValidMessage.get(i);
+           if (words.contains(word))
+               words= words.replace(word,convertInvalidWord(word));
+       }
+
         HashMap<String,Object> message = new HashMap<>();
         message.put(Constants.KEY_SENDER_ID,preferenceManager.getString(Constants.KEY_USER_ID));
         message.put(Constants.KEY_RECEIVER_ID,receiverUser.id);
-        message.put(Constants.KEY_MESSAGE,binding.inputMessage.getText().toString().trim());
+
+        message.put(Constants.KEY_MESSAGE,words.trim());
         message.put(Constants.KEY_TIMESTAMP,new Date());
         database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
         if(conversionId != null){
-            updateConversion(binding.inputMessage.getText().toString());
+           // updateConversion(binding.inputMessage.getText().toString());
+           updateConversion(words);
         }else{
             HashMap<String,Object> conversion = new HashMap<>();
             conversion.put(Constants.KEY_SENDER_ID,preferenceManager.getString(Constants.KEY_USER_ID));
@@ -95,7 +135,7 @@ public class ChatActivity extends BaseActivity {
             conversion.put(Constants.KEY_RECEIVER_ID,receiverUser.id);
             conversion.put(Constants.KEY_RECEIVER_NAME,receiverUser.name);
             conversion.put(Constants.KEY_RECEIVER_IMAGE,receiverUser.image);
-            conversion.put(Constants.KEY_LAST_MESSAGE,binding.inputMessage.getText().toString().trim());
+            conversion.put(Constants.KEY_LAST_MESSAGE,words.trim());
             conversion.put(Constants.KEY_TIMESTAMP,new Date());
             addConversion(conversion);
         }
@@ -108,7 +148,7 @@ public class ChatActivity extends BaseActivity {
                 data.put(Constants.KEY_USER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
                 data.put(Constants.KEY_NAME, preferenceManager.getString(Constants.KEY_NAME));
                 data.put(Constants.KEY_FCM_TOKEN, preferenceManager.getString(Constants.KEY_FCM_TOKEN));
-                data.put(Constants.KEY_MESSAGE, binding.inputMessage.getText().toString());
+                data.put(Constants.KEY_MESSAGE, words.trim());
 
                 JSONObject body = new JSONObject();
                 body.put(Constants.REMOTE_MSG_DATA, data);
