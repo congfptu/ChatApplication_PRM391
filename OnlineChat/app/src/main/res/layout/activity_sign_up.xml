@@ -8,6 +8,7 @@
     android:overScrollMode="never"
     android:padding="@dimen/_24sdp"
     android:scrollbars="none"
+    android:background="@drawable/background_sign_in"
     tools:context=".activities.SignUpActivity">
 
     <LinearLayout
@@ -21,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_20sdp"
             android:text="@string/create_new_account"
-            android:textColor="@color/primary_text"
+            android:textColor="@color/white"
             android:textSize="@dimen/_18ssp"
             android:textStyle="bold">
 
@@ -46,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/add_image"
+                android:text="@string/upload_avatar"
                 android:textColor="@color/secondary_text"
                 android:textSize="@dimen/_10ssp" />
 
@@ -123,17 +124,18 @@
             android:layout_marginTop="@dimen/_16sdp"
             android:animateLayoutChanges="true">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonSignUp"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
-            android:text="@string/sign_up"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_13ssp"
-            android:textStyle="bold"
-            app:cornerRadius="@dimen/_8sdp"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonSignUp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:backgroundTint="#B84825"
+                android:text="@string/sign_up"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_13ssp"
+                android:textStyle="bold"
+                app:cornerRadius="@dimen/_8sdp" />
 
-      <ProgressBar
+            <ProgressBar
           android:layout_width="@dimen/_25sdp"
           android:layout_height="@dimen/_25sdp"
           android:id="@+id/progressBar"
@@ -149,7 +151,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
             android:text="@string/sign_in"
-            android:textColor="@color/primary"
+            android:textColor="@color/white"
             android:textSize="@dimen/_13ssp"
             android:textStyle="bold"></TextView>
     </LinearLayout>

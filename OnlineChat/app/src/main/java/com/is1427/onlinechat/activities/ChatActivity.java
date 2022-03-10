@@ -233,8 +233,12 @@ public class ChatActivity extends BaseActivity {
                 }
                 if (isReceiverAvailable){
                     binding.textAvailability.setVisibility(View.VISIBLE);
+                    binding.iconOnline.setVisibility(View.VISIBLE);
+                    binding.iconVideoOnline.setVisibility(View.VISIBLE);
                 }else{
                     binding.textAvailability.setVisibility(View.GONE);
+                    binding.iconOnline.setVisibility(View.GONE);
+                    binding.iconVideoOnline.setVisibility(View.GONE);
                 }
 
         });

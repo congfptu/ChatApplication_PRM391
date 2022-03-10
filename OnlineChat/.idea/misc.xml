@@ -3,7 +3,33 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/layout/activity_chat.xml" value="0.3625" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/drawable/background_chat_input.xml" value="0.318" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/drawable/background_content_bottom.xml" value="0.225" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/drawable/background_content_top.xml" value="0.318" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/drawable/background_header.xml" value="0.1" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/drawable/background_icon.xml" value="0.2705" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/drawable/background_image.xml" value="0.3635" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/drawable/background_input.xml" value="0.202" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/drawable/background_main.xml" value="0.358" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/drawable/background_received_message.xml" value="0.225" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/drawable/background_sent_message.xml" value="0.225" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/drawable/background_signin.xml" value="0.202" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/drawable/button_background.xml" value="0.202" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/drawable/ic_image.xml" value="0.1905" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/drawable/ic_info.xml" value="0.1" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/drawable/ic_online.xml" value="0.2775" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/drawable/ic_person_add.xml" value="0.2775" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/drawable/ic_room_video.xml" value="0.2775" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/drawable/ic_videocall.xml" value="0.261" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/layout/activity_chat.xml" value="0.33" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/layout/activity_main.xml" value="0.21467391304347827" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/layout/activity_sign_in.xml" value="0.21467391304347827" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/layout/activity_sign_up.xml" value="0.3625" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/layout/activity_users.xml" value="0.3625" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/layout/item_container_receiverd_message.xml" value="0.21467391304347827" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/layout/item_container_recent_conversion.xml" value="0.21467391304347827" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/layout/item_container_sent_message.xml" value="0.3625" />
+        <entry key="..\:/Android Studio/ChatApplication_PRM391/OnlineChat/app/src/main/res/layout/item_container_user.xml" value="0.21467391304347827" />
         <entry key="..\:/Android Studio/OnlineChat/OnlineChat/app/src/main/res/drawable/background_chat_input.xml" value="0.2085" />
         <entry key="..\:/Android Studio/OnlineChat/OnlineChat/app/src/main/res/drawable/background_content_bottom.xml" value="0.2" />
         <entry key="..\:/Android Studio/OnlineChat/OnlineChat/app/src/main/res/drawable/background_content_top.xml" value="0.2085" />

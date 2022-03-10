@@ -32,13 +32,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/imageBack"/>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/_16sdp"
-        android:background="@drawable/background_content_bottom"
+        android:background="@drawable/background_main"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageBack">
+        app:layout_constraintTop_toBottomOf="@id/imageBack"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="0dp">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/usersRecyclerView"
             android:layout_width="match_parent"
@@ -48,12 +52,14 @@
             android:overScrollMode="never"
             android:padding="@dimen/_20sdp"
             android:visibility="gone"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center" />
+
         <TextView
             android:id="@+id/textErrorMessage"
             android:layout_width="match_parent"
@@ -63,8 +69,8 @@
             android:layout_marginEnd="@dimen/_24sdp"
             android:textColor="@color/error"
             android:textSize="@dimen/_12ssp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
 
     </FrameLayout>
-  </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
