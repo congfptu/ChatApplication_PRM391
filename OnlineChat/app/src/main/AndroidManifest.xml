@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OnlineChat">
         <activity
+            android:name=".activities.ViewImageActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.ChatActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
