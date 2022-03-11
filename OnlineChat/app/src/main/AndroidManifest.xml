@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.OnlineChat">
+
         <activity
             android:name=".activities.ViewImageActivity"
             android:exported="false" />
@@ -27,6 +28,9 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activities.SignInActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.SplashScreen"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
