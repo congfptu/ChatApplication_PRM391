@@ -1,13 +1,18 @@
 package com.is1427.onlinechat.activities;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,6 +36,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,8 +61,10 @@ public class ChatActivity extends BaseActivity {
     private PreferenceManager preferenceManager;
     private FirebaseFirestore database;
     private String conversionId = null;
+    private String encodedImage;
     private Boolean isReceiverAvailable = false;
     ArrayList<String> inValidMessage =new ArrayList<>();
+    private Boolean isSendImage=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,6 +111,57 @@ public class ChatActivity extends BaseActivity {
             rs+="*";
         return rs;
  }
+    private void sendImageMessage(){
+
+        String words=encodedImage;
+            HashMap<String,Object> message = new HashMap<>();
+            message.put(Constants.KEY_SENDER_ID,preferenceManager.getString(Constants.KEY_USER_ID));
+            message.put(Constants.KEY_RECEIVER_ID,receiverUser.id);
+            message.put(Constants.KEY_IMAGE_MESSAGE,words.trim());
+            message.put(Constants.KEY_TIMESTAMP,new Date());
+            database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
+            if(conversionId != null){
+                // updateConversion(binding.inputMessage.getText().toString());
+                updateConversion("Đã gửi một ảnh");
+            }else{
+                HashMap<String,Object> conversion = new HashMap<>();
+                conversion.put(Constants.KEY_SENDER_ID,preferenceManager.getString(Constants.KEY_USER_ID));
+                conversion.put(Constants.KEY_SENDER_NAME,preferenceManager.getString(Constants.KEY_NAME));
+                conversion.put(Constants.KEY_SENDER_IMAGE,preferenceManager.getString(Constants.KEY_IMAGE));
+                conversion.put(Constants.KEY_RECEIVER_ID,receiverUser.id);
+                conversion.put(Constants.KEY_RECEIVER_NAME,receiverUser.name);
+                conversion.put(Constants.KEY_RECEIVER_IMAGE,receiverUser.image);
+                conversion.put(Constants.KEY_LAST_MESSAGE,"Đã gửi một ảnh");
+                conversion.put(Constants.KEY_TIMESTAMP,new Date());
+                addConversion(conversion);
+            }
+            if(!isReceiverAvailable){
+                try{
+                    JSONArray tokens = new JSONArray();
+                    tokens.put(receiverUser.token);
+
+                    JSONObject data = new JSONObject();
+                    data.put(Constants.KEY_USER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
+                    data.put(Constants.KEY_NAME, preferenceManager.getString(Constants.KEY_NAME));
+                    data.put(Constants.KEY_FCM_TOKEN, preferenceManager.getString(Constants.KEY_FCM_TOKEN));
+                    data.put(Constants.KEY_IMAGE_MESSAGE, "Đã gửi một Ảnh");
+
+                    JSONObject body = new JSONObject();
+                    body.put(Constants.REMOTE_MSG_DATA, data);
+                    body.put(Constants.REMOTE_MSG_REGISTRATION_IDS, tokens);
+
+                    sendNotification(body.toString());
+
+
+                }catch(Exception exception){
+
+
+                }
+            }
+        binding.inputMessage.setText(null);
+        }
+
+
     private void sendMessage(){
 
         String words=binding.inputMessage.getText().toString().trim();
@@ -161,8 +222,6 @@ public class ChatActivity extends BaseActivity {
 
 
             }catch(Exception exception){
-                showToast(exception.getMessage());
-
             }
         }
         }
@@ -188,14 +247,13 @@ public class ChatActivity extends BaseActivity {
                             JSONArray results = responseJson.getJSONArray("results");
                             if(responseJson.getInt("failure") ==  1){
                                 JSONObject error = (JSONObject) results.get(0);
-                                showToast(error.getString("error"));
+                             //   showToast(error.getString("error"));
                                 return;
                             }
                         }
                     }catch(JSONException e){
                         e.printStackTrace();
                     }
-                    showToast("Notification sent successfully");
 
                 }
                 else{
@@ -270,6 +328,7 @@ public class ChatActivity extends BaseActivity {
                     chatMessage.message = documentChange.getDocument().getString(Constants.KEY_MESSAGE);
                     chatMessage.dateTime = getReadableDateTime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP));
                     chatMessage.dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
+                    chatMessage.imageMessage= documentChange.getDocument().getString(Constants.KEY_IMAGE_MESSAGE);
                     chatMessages.add(chatMessage);
                 }
             }
@@ -306,8 +365,46 @@ public class ChatActivity extends BaseActivity {
     private void setListeners(){
         binding.imageBack.setOnClickListener(view -> onBackPressed());
         binding.layoutSend.setOnClickListener(view -> sendMessage());
+        binding.imageSendImage.setOnClickListener(view ->sendPicture());
+
+    }
+    private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    if (result.getData() != null) {
+                        Uri imageUri = result.getData().getData();
+
+                        try {
+                            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+                            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                            encodedImage = encodeImage(bitmap);
+                            sendImageMessage();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }
+            }
+    );
+    private void sendPicture() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        pickImage.launch(intent);
+
     }
 
+    private String encodeImage(Bitmap bitmap) {
+        int previewWidth = 150;
+        int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
+        Bitmap previewBitmap = Bitmap.createScaledBitmap(bitmap, previewWidth, previewHeight, false);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        previewBitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
+
+    }
     private String getReadableDateTime(Date date){
         return new SimpleDateFormat("MMMM dd, yyyy - hh:mm a", Locale.getDefault()).format(date);
     }

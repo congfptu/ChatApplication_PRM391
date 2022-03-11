@@ -1,7 +1,10 @@
 package com.is1427.onlinechat.adapters;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -10,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.is1427.onlinechat.databinding.ItemContainerReceiverdMessageBinding;
 import com.is1427.onlinechat.databinding.ItemContainerSentMessageBinding;
 import com.is1427.onlinechat.models.ChatMessage;
+import com.is1427.onlinechat.utilities.Constants;
 
 import java.util.List;
 
@@ -74,7 +78,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return VIEW_TYPE_RECEIVED;
         }
     }
-
+    private static Bitmap getConversionImage(String encodedImage){
+        byte[] bytes = Base64.decode(encodedImage,Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+    }
     static class SentMessageViewHolder extends RecyclerView.ViewHolder {
         private final ItemContainerSentMessageBinding binding;
 
@@ -84,7 +91,18 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         void setData(@NonNull ChatMessage chatMessage) {
-                binding.textMessage.setText(chatMessage.message.trim());
+                if(chatMessage.getImageMessage()==null){
+                    binding.textMessage.setVisibility(View.VISIBLE);
+                    binding.imageMessage.setVisibility(View.GONE);
+                    binding.textMessage.setText(chatMessage.getMessage());
+                }
+                else{
+                    binding.imageMessage.setVisibility(View.VISIBLE);
+                    binding.textMessage.setVisibility(View.GONE);
+                    binding.imageMessage.setImageBitmap( getConversionImage(chatMessage.getImageMessage()));
+
+
+                }
                 binding.textDateTime.setText(chatMessage.dateTime);
         }
     }
@@ -98,12 +116,24 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
 
         void setData(@NonNull ChatMessage chatMessage, Bitmap receiverProfileImage) {
-                binding.textMessage.setText(chatMessage.message);
+            if (chatMessage.getImageMessage()==null) {
+                binding.textMessage.setVisibility(View.VISIBLE);
+                binding.imageMessage.setVisibility(View.GONE);
+                binding.textMessage.setText(chatMessage.getMessage());
+            }
+            else{
+                binding.textMessage.setVisibility(View.GONE);
+                binding.imageMessage.setVisibility(View.VISIBLE);
+                binding.imageMessage.setImageBitmap(getConversionImage(chatMessage.getImageMessage()));
+                }
+
                 binding.textDateTime.setText(chatMessage.dateTime);
-                if(receiverProfileImage != null){
+
+
+                if (receiverProfileImage != null) {
                     binding.imageProfile.setImageBitmap(receiverProfileImage);
                 }
-        }
+            }
 
+        }
     }
-}
