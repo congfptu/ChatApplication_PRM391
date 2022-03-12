@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -64,6 +66,7 @@ public class ChatActivity extends BaseActivity {
     private String encodedImage;
     private Boolean isReceiverAvailable = false;
     ArrayList<String> inValidMessage =new ArrayList<>();
+
     private Boolean isSendImage=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +115,54 @@ public class ChatActivity extends BaseActivity {
             rs+="*";
         return rs;
  }
+    private void sendEmojiMessage(String emoji){
+
+        HashMap<String,Object> message = new HashMap<>();
+        message.put(Constants.KEY_SENDER_ID,preferenceManager.getString(Constants.KEY_USER_ID));
+        message.put(Constants.KEY_RECEIVER_ID,receiverUser.id);
+        message.put(Constants.KEY_MESSAGE,emoji);
+        message.put(Constants.KEY_TIMESTAMP,new Date());
+        database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
+        if(conversionId != null){
+            // updateConversion(binding.inputMessage.getText().toString());
+            updateConversion(emoji);
+        }else{
+            HashMap<String,Object> conversion = new HashMap<>();
+            conversion.put(Constants.KEY_SENDER_ID,preferenceManager.getString(Constants.KEY_USER_ID));
+            conversion.put(Constants.KEY_SENDER_NAME,preferenceManager.getString(Constants.KEY_NAME));
+            conversion.put(Constants.KEY_SENDER_IMAGE,preferenceManager.getString(Constants.KEY_IMAGE));
+            conversion.put(Constants.KEY_RECEIVER_ID,receiverUser.id);
+            conversion.put(Constants.KEY_RECEIVER_NAME,receiverUser.name);
+            conversion.put(Constants.KEY_RECEIVER_IMAGE,receiverUser.image);
+            conversion.put(Constants.KEY_LAST_MESSAGE,emoji);
+            conversion.put(Constants.KEY_TIMESTAMP,new Date());
+            addConversion(conversion);
+        }
+        if(!isReceiverAvailable){
+            try{
+                JSONArray tokens = new JSONArray();
+                tokens.put(receiverUser.token);
+
+                JSONObject data = new JSONObject();
+                data.put(Constants.KEY_USER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
+                data.put(Constants.KEY_NAME, preferenceManager.getString(Constants.KEY_NAME));
+                data.put(Constants.KEY_FCM_TOKEN, preferenceManager.getString(Constants.KEY_FCM_TOKEN));
+                data.put(Constants.KEY_MESSAGE, emoji);
+
+                JSONObject body = new JSONObject();
+                body.put(Constants.REMOTE_MSG_DATA, data);
+                body.put(Constants.REMOTE_MSG_REGISTRATION_IDS, tokens);
+
+                sendNotification(body.toString());
+
+
+            }catch(Exception exception){
+
+
+            }
+        }
+        binding.inputMessage.setText(null);
+    }
     private void sendImageMessage(){
 
         String words=encodedImage;
@@ -367,8 +418,40 @@ public class ChatActivity extends BaseActivity {
         binding.imageBack.setOnClickListener(view -> onBackPressed());
         binding.layoutSend.setOnClickListener(view -> sendMessage());
         binding.imageSendImage.setOnClickListener(view ->sendPicture());
+        binding.inputMessage.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                binding.layoutSend.setVisibility(View.VISIBLE);
+                binding.sendLike.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                 if(binding.inputMessage.getText().toString().equals("")){
+                     binding.layoutSend.setVisibility(View.INVISIBLE);
+                     binding.sendLike.setVisibility(View.VISIBLE);
+                 }
+            }
+        });
+        binding.sendLike.setOnClickListener(view -> sendLikeMessage());
 
     }
+
+    private void sendLikeMessage() {
+        int uniCode=0x2764;
+        String emoji= getEmojiFromUnicode(uniCode);
+        sendEmojiMessage(emoji);
+
+    }
+    private String getEmojiFromUnicode(int unicode){
+      return new String(Character.toChars(unicode));
+    }
+
+
     private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
