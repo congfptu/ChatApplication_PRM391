@@ -18,10 +18,20 @@
         android:layout_marginTop="@dimen/_50sdp"
         android:orientation="vertical">
 
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/icon_app"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+           android:src="@drawable/new_logo"
+            android:background="@drawable/background_image"
+            android:scaleType="centerCrop"
+            app:riv_oval="true"
+            />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_20sdp"
             android:text="@string/welcome_back"
             android:textColor="@color/white"
             android:textSize="@dimen/_18ssp"
@@ -83,7 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
                 android:backgroundTint="#B84825"
-                android:text="@string/sign_up"
+                android:text="@string/sign_in"
                 android:textColor="@color/white"
                 android:textSize="@dimen/_13ssp"
                 android:textStyle="bold"
