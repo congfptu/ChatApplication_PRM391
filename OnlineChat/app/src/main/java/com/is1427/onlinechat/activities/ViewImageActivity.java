@@ -5,13 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.Point;
 import android.graphics.PointF;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.is1427.onlinechat.databinding.ActivityUsersBinding;
@@ -25,10 +29,20 @@ public class ViewImageActivity extends AppCompatActivity {
     private float FACTOR = 1.0f;
 
     public void bindingAction() {
+        WindowManager windowManager = (WindowManager) getApplicationContext().getSystemService(getApplicationContext().WINDOW_SERVICE);
+
+        Display display = windowManager.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
         binding.imageBack.setOnClickListener(this::onClickImageBack);
         setImage();
         binding.imageMessage.setOnTouchListener(this::onTouchImageMessage);
+
         binding.imageMessage.setScaleType(ImageView.ScaleType.MATRIX);
+        RectF drawableRect = new RectF(0, 0, binding.imageMessage.getDrawable().getIntrinsicWidth(), binding.imageMessage.getDrawable().getIntrinsicHeight());
+        RectF viewRect = new RectF(0, 0, size.x, size.y-200);
+        matrix.setRectToRect(drawableRect, viewRect, Matrix.ScaleToFit.CENTER);
+        binding.imageMessage.setImageMatrix(matrix);
     }
 
     private static final String TAG = "Touch";

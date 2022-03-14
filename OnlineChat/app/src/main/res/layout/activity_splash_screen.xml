@@ -14,5 +14,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/team5" />
+        app:srcCompat="@drawable/team6" />
 </androidx.constraintlayout.widget.ConstraintLayout>
