@@ -27,7 +27,7 @@ public class ViewImageActivity extends AppCompatActivity {
     private ActivityViewImageBinding binding;
     private ScaleGestureDetector scaleGestureDetector;
     private float FACTOR = 1.0f;
-
+ //View and zoom in zoom out image from chat activity
     public void bindingAction() {
         WindowManager windowManager = (WindowManager) getApplicationContext().getSystemService(getApplicationContext().WINDOW_SERVICE);
 

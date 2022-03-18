@@ -59,10 +59,12 @@ public class MainActivity extends BaseActivity implements ConversionListener {
         binding.conversationRecyclerView.setAdapter(conversationAdapter);
         database = FirebaseFirestore.getInstance();
     }
+    //event
     private void setListeners(){
         binding.imageSignOut.setOnClickListener(view -> signOut());
         binding.fabNewChat.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), UsersActivity.class)));
     }
+    //load user image, username
     private  void loadUserDetails(){
         binding.textName.setText(preferenceManager.getString(Constants.KEY_NAME));
         byte[] bytes= Base64.decode(preferenceManager.getString(Constants.KEY_IMAGE),Base64.DEFAULT);
@@ -70,10 +72,11 @@ public class MainActivity extends BaseActivity implements ConversionListener {
         binding.imageProfile.setImageBitmap(bitmap);
 
     }
+
     private void showToast(String message){
         Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
     }
-
+     //get data of recent conversation
     private void listenConversations(){
         database.collection(Constants.KEY_COLLECTION_CONVERSATIONS)
                 .whereEqualTo(Constants.KEY_SENDER_ID,preferenceManager.getString(Constants.KEY_USER_ID))
@@ -82,7 +85,7 @@ public class MainActivity extends BaseActivity implements ConversionListener {
                 .whereEqualTo(Constants.KEY_RECEIVER_ID,preferenceManager.getString(Constants.KEY_USER_ID))
                 .addSnapshotListener(eventListener);
     }
-
+//get Last message of conversation
     private final EventListener<QuerySnapshot> eventListener = (value,error) -> {
         if(error != null){
             return;
@@ -126,7 +129,7 @@ public class MainActivity extends BaseActivity implements ConversionListener {
             binding.progressBar.setVisibility(View.GONE);
         }
     };
-
+//get current token
     private void getToken(){
         FirebaseMessaging.getInstance().getToken().addOnSuccessListener(this::updateToken);
     }
@@ -140,6 +143,7 @@ public class MainActivity extends BaseActivity implements ConversionListener {
                // .addOnSuccessListener(unused -> showToast("Token updated successfully"))
                 .addOnFailureListener(e -> showToast(" Update Token Fail"));
     }
+    //sign out and reset token
     private void signOut(){
         showToast("Signing out ...");
         FirebaseFirestore database=FirebaseFirestore.getInstance();
@@ -157,7 +161,7 @@ public class MainActivity extends BaseActivity implements ConversionListener {
                 .addOnFailureListener(e -> showToast("Unable to sign out"));
 
     }
-
+  //get user clicked to chat
     @Override
     public void onConversionClicked(User user) {
         Intent intent = new Intent(getApplicationContext(), ChatActivity.class);

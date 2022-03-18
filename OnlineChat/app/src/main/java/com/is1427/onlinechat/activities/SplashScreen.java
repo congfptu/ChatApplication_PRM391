@@ -12,7 +12,7 @@ import com.is1427.onlinechat.databinding.ActivitySplashScreenBinding;
 
 public class SplashScreen extends AppCompatActivity {
     ActivitySplashScreenBinding binding;
-
+   //Splash Screen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

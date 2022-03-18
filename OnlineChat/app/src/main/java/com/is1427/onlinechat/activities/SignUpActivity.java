@@ -97,7 +97,7 @@ public class SignUpActivity extends AppCompatActivity {
         return Base64.encodeToString(bytes, Base64.DEFAULT);
 
     }
-
+  //pick image from library and encode this image
     private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -119,7 +119,7 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
     );
-
+     //check valid data
     private Boolean isValidSignUpDetails() {
         if (encodedImage == null) {
             showToast("select profile image");

@@ -17,7 +17,6 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
@@ -67,6 +66,7 @@ public class ChatActivity extends BaseActivity {
     private String encodedImage;
     private Boolean isReceiverAvailable = false;
     ArrayList<String> inValidMessage =new ArrayList<>();
+    private HashMap<String,String> emojis= new HashMap<String,String>();
 
     private Boolean isSendImage=false;
     @Override
@@ -75,6 +75,7 @@ public class ChatActivity extends BaseActivity {
          setInValidMessage();
         setContentView(R.layout.activity_chat);
         binding = ActivityChatBinding.inflate(getLayoutInflater());
+        setDefaultEmojis();
         //block screenshot from android app
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE,WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(binding.getRoot());
@@ -82,8 +83,9 @@ public class ChatActivity extends BaseActivity {
         loadReceiverDetails();
         init();
         listenMessages();
-    }
 
+    }
+//data of Invalid Message
  public void setInValidMessage(){
      inValidMessage.add("lon");
      inValidMessage.add("cac");
@@ -100,6 +102,18 @@ public class ChatActivity extends BaseActivity {
      inValidMessage.add("djt");
 
  }
+ //data of emoji
+    public void setDefaultEmojis(){
+        emojis.put(":)",getEmojiFromUnicode(0x1F642));
+        emojis.put(":(",getEmojiFromUnicode(0x1F612));
+        emojis.put("<3",getEmojiFromUnicode(0x2764));
+        emojis.put(":D",getEmojiFromUnicode(0x1F603));
+        emojis.put("=)",getEmojiFromUnicode(0x263A));
+        emojis.put(":o",getEmojiFromUnicode(0x1F632));
+
+
+    }
+    //set data of recycler view chat activity
     private void init(){
         preferenceManager = new PreferenceManager(getApplicationContext());
         chatMessages = new ArrayList<>();
@@ -112,12 +126,14 @@ public class ChatActivity extends BaseActivity {
         binding.chatRecyclerView.setAdapter(chatAdapter);
         database = FirebaseFirestore.getInstance();
     }
+    //Invisible invalid word
  public String convertInvalidWord(String word){
         String rs="";
         for (int i=0;i<word.length();i++)
             rs+="*";
         return rs;
  }
+ //send Heart Emoji
     private void sendEmojiMessage(String emoji){
 
         HashMap<String,Object> message = new HashMap<>();
@@ -125,11 +141,13 @@ public class ChatActivity extends BaseActivity {
         message.put(Constants.KEY_RECEIVER_ID,receiverUser.id);
         message.put(Constants.KEY_MESSAGE,emoji);
         message.put(Constants.KEY_TIMESTAMP,new Date());
+        //add data into firebase
         database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
         if(conversionId != null){
             // updateConversion(binding.inputMessage.getText().toString());
             updateConversion(emoji);
         }else{
+            //put data into conversation
             HashMap<String,Object> conversion = new HashMap<>();
             conversion.put(Constants.KEY_SENDER_ID,preferenceManager.getString(Constants.KEY_USER_ID));
             conversion.put(Constants.KEY_SENDER_NAME,preferenceManager.getString(Constants.KEY_NAME));
@@ -166,6 +184,7 @@ public class ChatActivity extends BaseActivity {
         }
         binding.inputMessage.setText(null);
     }
+    //send message image
     private void sendImageMessage(){
 
         String words=encodedImage;
@@ -174,9 +193,11 @@ public class ChatActivity extends BaseActivity {
             message.put(Constants.KEY_RECEIVER_ID,receiverUser.id);
             message.put(Constants.KEY_IMAGE_MESSAGE,words.trim());
             message.put(Constants.KEY_TIMESTAMP,new Date());
+            //add data of message into firebase
             database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
             if(conversionId != null){
                 // updateConversion(binding.inputMessage.getText().toString());
+             //update last message of recent conversation
                 updateConversion("Đã gửi một ảnh");
             }else{
                 HashMap<String,Object> conversion = new HashMap<>();
@@ -204,21 +225,20 @@ public class ChatActivity extends BaseActivity {
                     JSONObject body = new JSONObject();
                     body.put(Constants.REMOTE_MSG_DATA, data);
                     body.put(Constants.REMOTE_MSG_REGISTRATION_IDS, tokens);
-
+                     //push notification if receiver user is not available
                     sendNotification(body.toString());
 
 
                 }catch(Exception exception){
-
 
                 }
             }
         binding.inputMessage.setText(null);
         }
 
-
+        //send text message
     private void sendMessage(){
-
+        //check valid message
         String words=binding.inputMessage.getText().toString().trim();
         if(words.trim().equals("")){}
         else
@@ -227,7 +247,7 @@ public class ChatActivity extends BaseActivity {
 
        for (int i=0;i<arrayWords.length;i++){
            String word=arrayWords[i];
-           if (inValidMessage.indexOf(word)!=-1)
+           if (inValidMessage.contains(word))
            words=words.replaceFirst(word,convertInvalidWord(word));
        }
        for (int i=0;i<inValidMessage.size();i++){
@@ -235,7 +255,7 @@ public class ChatActivity extends BaseActivity {
            if (words.contains(word))
                words= words.replace(word,convertInvalidWord(word));
        }
-
+        //add data of message into firebase
         HashMap<String,Object> message = new HashMap<>();
         message.put(Constants.KEY_SENDER_ID,preferenceManager.getString(Constants.KEY_USER_ID));
         message.put(Constants.KEY_RECEIVER_ID,receiverUser.id);
@@ -258,6 +278,7 @@ public class ChatActivity extends BaseActivity {
             conversion.put(Constants.KEY_TIMESTAMP,new Date());
             addConversion(conversion);
         }
+        //process send notification
         if(!isReceiverAvailable){
             try{
                 JSONArray tokens = new JSONArray();
@@ -323,6 +344,7 @@ public class ChatActivity extends BaseActivity {
         });
 
     }
+    //check user online or offline
     private void listenAvailabilityOfReceiver(){
         database.collection(Constants.KEY_COLLECTION_USERS).document(
                 receiverUser.id
@@ -356,7 +378,7 @@ public class ChatActivity extends BaseActivity {
 
         });
     }
-
+   //load recycler view if have new data in firebase
     private void listenMessages(){
         database.collection(Constants.KEY_COLLECTION_CHAT)
                 .whereEqualTo(Constants.KEY_SENDER_ID,preferenceManager.getString(Constants.KEY_USER_ID))
@@ -401,7 +423,7 @@ public class ChatActivity extends BaseActivity {
             checkForConversion();
         }
     };
-
+   //get image bitmap from encodeImage
     private Bitmap getBitmapFromEncodedString(String encodedImage){
 
         if(encodedImage != null){
@@ -412,44 +434,110 @@ public class ChatActivity extends BaseActivity {
         }
 
     }
-
+  //load data of receiver message
     private void loadReceiverDetails(){
         receiverUser=(User) getIntent().getSerializableExtra(Constants.KEY_USER);
         binding.textName.setText(receiverUser.name);
     }
+    //event
     private void setListeners(){
         binding.imageBack.setOnClickListener(view -> onBackPressed());
         binding.layoutSend.setOnClickListener(view -> sendMessage());
         binding.imageSendImage.setOnClickListener(view ->sendPicture());
         binding.inputMessage.addTextChangedListener(new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                binding.layoutSend.setVisibility(View.VISIBLE);
-                binding.sendLike.setVisibility(View.INVISIBLE);
-            }
 
+            }
+               //send icon shortcut keyboard
             @Override
             public void afterTextChanged(Editable editable) {
-                 if(binding.inputMessage.getText().toString().equals("")){
-                     binding.layoutSend.setVisibility(View.INVISIBLE);
-                     binding.sendLike.setVisibility(View.VISIBLE);
-                 }
+                String first, last,replace;
+                String message = binding.inputMessage.getText().toString();
+                if (message.equals("")) {
+                    binding.layoutSend.setVisibility(View.INVISIBLE);
+                    binding.sendLike.setVisibility(View.VISIBLE);
+                } else {
+                    binding.layoutSend.setVisibility(View.VISIBLE);
+                    binding.sendLike.setVisibility(View.INVISIBLE);
+               try{
+                    String[] strings = message.split("\\s");
+                    first = strings[0];
+                    last = strings[strings.length - 1];
+                    for (int i = 0; i < strings.length; i++) {
+                        String str = strings[i];
+                        String emoji = emojis.get(str);
+                        if (emoji != null) {
+                            if (first.equals(str)&& message.charAt(first.length())==' ') {
+                                try {
+
+                                    message = message.replace(str + " ", emoji + " ");
+                                } catch (Exception e) {
+                                    return;
+                                }
+                                int cursorPosition = binding.inputMessage.getSelectionEnd();
+                                binding.inputMessage.setText(message);
+                                binding.inputMessage.setSelection(message.length());
+                                return;
+                            }
+                            else if (last.equals(str)&&message.charAt(message.length()-1)==' ')  {
+                                str=" "+str+" ";
+                                emoji=" "+emoji+" ";
+
+                                try {
+                                    message = message.replace( str , emoji);
+                                } catch (Exception e) {
+                                    return;
+                                }
+                                int cursorPosition = binding.inputMessage.getSelectionEnd();
+
+                                Log.e("fds",cursorPosition+"");
+                                binding.inputMessage.setText(message);
+                                binding.inputMessage.setSelection(message.length());
+                                return;
+                            }
+                            else {
+                                if(!last.equals(str)){
+                                    str=" "+str+" ";
+                                    emoji=" "+emoji+" ";
+                                    try {
+                                        message = message.replace( str , emoji);
+                                    } catch (Exception e) {
+                                        return;
+                                    }
+                                    int cursorPosition = binding.inputMessage.getSelectionEnd();
+                                    binding.inputMessage.setText(message);
+                                    binding.inputMessage.setSelection(cursorPosition-1);
+
+                                    return;
+                                }
+                            }
+
+                        }
+                    }
+                }
+           catch(Exception e){
+                        return;
+                    }
             }
-        });
-        binding.sendLike.setOnClickListener(view -> sendLikeMessage());
-
+            }
+    });
+                binding.sendLike.setOnClickListener(view -> sendLikeMessage());
     }
-
+    //send heart quick drop
     private void sendLikeMessage() {
         int uniCode=0x2764;
         String emoji= getEmojiFromUnicode(uniCode);
         sendEmojiMessage(emoji);
 
     }
+    //get emoji from unicode
     private String getEmojiFromUnicode(int unicode){
       return new String(Character.toChars(unicode));
     }
@@ -475,13 +563,14 @@ public class ChatActivity extends BaseActivity {
                 }
             }
     );
+    //get picture from library of phone
     private void sendPicture() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         pickImage.launch(intent);
 
     }
-
+  //encode image
     private String encodeImage(Bitmap bitmap) {
         int previewWidth = 400;
         int previewHeight = bitmap.getHeight() * previewWidth / bitmap.getWidth();
@@ -492,6 +581,7 @@ public class ChatActivity extends BaseActivity {
         return Base64.encodeToString(bytes, Base64.DEFAULT);
 
     }
+    //get real time
     private String getReadableDateTime(Date date){
         return new SimpleDateFormat("MMMM dd, yyyy - hh:mm a", Locale.getDefault()).format(date);
     }

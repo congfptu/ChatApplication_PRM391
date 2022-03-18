@@ -104,7 +104,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             super(itemContainerSentMessageBinding.getRoot());
             binding = itemContainerSentMessageBinding;
         }
-
+      //set data into recyclerview if type of message is send
         void setData(@NonNull ChatMessage chatMessage) {
             if (chatMessage.getImageMessage() == null) {
                 binding.textMessage.setVisibility(View.VISIBLE);
@@ -122,7 +122,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
         }
-
+       //get Image Clicked and send to View Image Activity
         private void onImageClick(View view) {
             Intent intent = new Intent(ct, ViewImageActivity.class);
             if (currentImage != null) {
@@ -143,7 +143,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             super(itemContainerReceiverdMessageBinding.getRoot());
             binding = itemContainerReceiverdMessageBinding;
         }
-
+        //set data into recyclerview if type of message is receiver
         void setData(@NonNull ChatMessage chatMessage, Bitmap receiverProfileImage) {
             currentImage=chatMessage.getImageMessage();
             if (chatMessage.getImageMessage() == null) {
@@ -163,7 +163,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 binding.imageProfile.setImageBitmap(receiverProfileImage);
             }
         }
-
+        //get Image Clicked and send to View Image Activity
         private void onImageClick(View view) {
             Intent intent = new Intent(ct, ViewImageActivity.class);
             if (currentImage != null) {

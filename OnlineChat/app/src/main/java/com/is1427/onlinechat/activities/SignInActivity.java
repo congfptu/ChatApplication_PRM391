@@ -35,7 +35,7 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         setListeners();
     }
-
+    //set event
     private void setListeners() {
         binding.textCreateNewAccount.setOnClickListener(view ->
                 startActivity(new Intent(getApplicationContext(), SignUpActivity.class)));
@@ -58,6 +58,7 @@ public class SignInActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_SHORT).show();
         });
     }
+    //sign in
     private void signIn(){
         loading(true);
         FirebaseFirestore database= FirebaseFirestore.getInstance();
@@ -68,6 +69,7 @@ public class SignInActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful()&&task.getResult()!=null &&task.getResult().getDocuments().size()>0) {
                         DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
+                        //set singed in=true to save login
                         preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
                         preferenceManager.putString(Constants.KEY_USER_ID, documentSnapshot.getId());
                         preferenceManager.putString(Constants.KEY_NAME, documentSnapshot.getString(Constants.KEY_NAME));
