@@ -240,21 +240,27 @@ public class ChatActivity extends BaseActivity {
     private void sendMessage(){
         //check valid message
         String words=binding.inputMessage.getText().toString().trim();
-        if(words.trim().equals("")){}
-        else
+        if(!words.trim().equals(""))
         {
        String[] arrayWords= words.split("\\s");
-
        for (int i=0;i<arrayWords.length;i++){
            String word=arrayWords[i];
            if (inValidMessage.contains(word))
-           words=words.replaceFirst(word,convertInvalidWord(word));
+           words=words.replaceAll("\\b"+word+"\\b",convertInvalidWord(word));
        }
        for (int i=0;i<inValidMessage.size();i++){
            String word=inValidMessage.get(i);
            if (words.contains(word))
                words= words.replace(word,convertInvalidWord(word));
        }
+            String[] listWords= words.split("\\s");
+            for (int i = 0; i < listWords.length; i++) {
+                String str = listWords[i];
+                String emoji = emojis.get(str);
+                if (emoji != null) {
+                  words=words.replace(str,emoji);
+                }
+            }
         //add data of message into firebase
         HashMap<String,Object> message = new HashMap<>();
         message.put(Constants.KEY_SENDER_ID,preferenceManager.getString(Constants.KEY_USER_ID));
@@ -476,12 +482,10 @@ public class ChatActivity extends BaseActivity {
                         if (emoji != null) {
                             if (first.equals(str)&& message.charAt(first.length())==' ') {
                                 try {
-
                                     message = message.replace(str + " ", emoji + " ");
                                 } catch (Exception e) {
                                     return;
                                 }
-                                int cursorPosition = binding.inputMessage.getSelectionEnd();
                                 binding.inputMessage.setText(message);
                                 binding.inputMessage.setSelection(message.length());
                                 return;
@@ -497,7 +501,7 @@ public class ChatActivity extends BaseActivity {
                                 }
                                 int cursorPosition = binding.inputMessage.getSelectionEnd();
 
-                                Log.e("fds",cursorPosition+"");
+
                                 binding.inputMessage.setText(message);
                                 binding.inputMessage.setSelection(message.length());
                                 return;
