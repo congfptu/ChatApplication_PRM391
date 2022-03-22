@@ -51,7 +51,10 @@ public class MessagingService extends FirebaseMessagingService {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this,channelId);
         builder.setSmallIcon(R.drawable.ic_notification);
         builder.setContentTitle(user.name);
-        builder.setContentText(remoteMessage.getData().get(Constants.KEY_MESSAGE));
+        if(remoteMessage.getData().get(Constants.KEY_IMAGE_MESSAGE)!=null)
+        builder.setContentText(remoteMessage.getData().get(Constants.KEY_IMAGE_MESSAGE));
+        else
+            builder.setContentText(remoteMessage.getData().get(Constants.KEY_MESSAGE));
         builder.setStyle(new NotificationCompat.BigTextStyle().bigText(
                 remoteMessage.getData().get(Constants.KEY_MESSAGE)
                 ));

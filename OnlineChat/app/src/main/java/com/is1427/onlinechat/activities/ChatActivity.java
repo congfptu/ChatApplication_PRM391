@@ -298,6 +298,7 @@ public class ChatActivity extends BaseActivity {
 
                 JSONObject body = new JSONObject();
                 body.put(Constants.REMOTE_MSG_DATA, data);
+                //get token of receiver to send notification
                 body.put(Constants.REMOTE_MSG_REGISTRATION_IDS, tokens);
 
                 sendNotification(body.toString());
@@ -419,6 +420,7 @@ public class ChatActivity extends BaseActivity {
             if(count == 0){
                 chatAdapter.notifyDataSetChanged();
             }else{
+                //load recyclerview
                 chatAdapter.notifyItemRangeInserted(chatMessages.size(),chatMessages.size());
                 binding.chatRecyclerView.smoothScrollToPosition(chatMessages.size() - 1);
             }

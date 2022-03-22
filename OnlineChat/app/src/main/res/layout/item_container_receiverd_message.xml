@@ -31,11 +31,12 @@
 
         />
 
+
     <TextView
         android:id="@+id/textMessage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_marginStart="@dimen/_8sdp"
         android:layout_marginBottom="@dimen/_4sdp"
         android:background="@drawable/background_received_message"
         android:paddingStart="@dimen/_12sdp"
@@ -44,10 +45,11 @@
         android:paddingBottom="@dimen/_8sdp"
         android:textColor="@color/white"
         android:textSize="@dimen/_13ssp"
-        app:layout_constraintBottom_toTopOf="@id/textDateTime"
-        app:layout_constraintStart_toEndOf="@id/imageProfile"
+        app:layout_constraintWidth_percent="0.75"
         app:layout_constraintWidth_max="wrap"
-        app:layout_constraintWidth_percent="0.75"/>
+        app:layout_constraintStart_toEndOf="@id/imageProfile"
+        app:layout_constraintBottom_toTopOf="@id/textDateTime"
+        />
 
     <TextView
         android:id="@+id/textDateTime"
